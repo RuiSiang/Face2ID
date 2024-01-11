@@ -4,7 +4,8 @@ Promise.all([
   faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
   faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
   faceapi.nets.ssdMobilenetv1.loadFromUri('/models'),
-  // faceapi.nets.faceExpressionNet.loadFromUri('/models')
+  faceapi.nets.faceExpressionNet.loadFromUri('/models'),
+  faceapi.nets.ageGenderNet.loadFromUri('/models')
 ]).then(start)
 
 async function start() {
@@ -25,15 +26,44 @@ async function start() {
     container.append(canvas)
     const displaySize = { width: image.width, height: image.height }
     faceapi.matchDimensions(canvas, displaySize)
-    const detections = await faceapi.detectAllFaces(image).withFaceLandmarks().withFaceDescriptors()
+    const detections = await faceapi.detectAllFaces(image).withFaceLandmarks().withFaceExpressions().withAgeAndGender().withFaceDescriptors()
     const resizedDetections = faceapi.resizeResults(detections, displaySize)
     faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
+    const minProbability = 0.05
+    faceapi.draw.drawFaceExpressions(canvas, resizedDetections, minProbability)
     const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor))
-    results.forEach((result, i) => {
+    for (let i = 0; i < results.length; i++) {
+      const { age, gender, genderProbability } = resizedDetections[i]
+      console.log(resizedDetections[i])
+      new faceapi.draw.DrawTextField(
+        [
+          results[i].toString(),
+          `${Math.round(age, 0)} years`,
+          `${gender} (${Math.round(genderProbability)})`,
+        ],
+        resizedDetections[i].detection.box.topRight,{
+          anchorPosition: 'BOTTOM_RIGHT',
+        }
+      ).draw(canvas)
       const box = resizedDetections[i].detection.box
-      const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
+      const drawBox = new faceapi.draw.DrawBox(box)
       drawBox.draw(canvas)
-    })
+    }
+    // resizedDetections.forEach((result, i) => {
+    //   const { age, gender, genderProbability } = result
+    //     new faceapi.draw.DrawTextField(
+    //       [
+    //         `${Math.round(age, 0)} years`,
+    //         `${gender} (${Math.round(genderProbability)})`
+    //       ],
+    //       result.detection.box.bottomLeft
+    //     ).draw(canvas)
+    // })
+    // results.forEach((result, i) => {
+    //   const box = resizedDetections[i].detection.box
+    //   const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
+    //   drawBox.draw(canvas)
+    // })
   })
 }
 
