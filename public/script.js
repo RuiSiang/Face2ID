@@ -29,41 +29,25 @@ async function start() {
     const detections = await faceapi.detectAllFaces(image).withFaceLandmarks().withFaceExpressions().withAgeAndGender().withFaceDescriptors()
     const resizedDetections = faceapi.resizeResults(detections, displaySize)
     faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
-    const minProbability = 0.05
+    const minProbability = 0.2
     faceapi.draw.drawFaceExpressions(canvas, resizedDetections, minProbability)
     const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor))
     for (let i = 0; i < results.length; i++) {
       const { age, gender, genderProbability } = resizedDetections[i]
-      console.log(resizedDetections[i])
       new faceapi.draw.DrawTextField(
         [
           results[i].toString(),
           `${Math.round(age, 0)} years`,
           `${gender} (${Math.round(genderProbability)})`,
         ],
-        resizedDetections[i].detection.box.topRight,{
-          anchorPosition: 'BOTTOM_RIGHT',
+        resizedDetections[i].detection.box.topLeft,{
+          anchorPosition: 'BOTTOM_LEFT',
         }
       ).draw(canvas)
       const box = resizedDetections[i].detection.box
       const drawBox = new faceapi.draw.DrawBox(box)
       drawBox.draw(canvas)
     }
-    // resizedDetections.forEach((result, i) => {
-    //   const { age, gender, genderProbability } = result
-    //     new faceapi.draw.DrawTextField(
-    //       [
-    //         `${Math.round(age, 0)} years`,
-    //         `${gender} (${Math.round(genderProbability)})`
-    //       ],
-    //       result.detection.box.bottomLeft
-    //     ).draw(canvas)
-    // })
-    // results.forEach((result, i) => {
-    //   const box = resizedDetections[i].detection.box
-    //   const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
-    //   drawBox.draw(canvas)
-    // })
   })
 }
 
