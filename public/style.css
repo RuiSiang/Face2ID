@@ -19,6 +19,8 @@ body {
   background: #fff;
   border-radius: 8px;
   overflow: auto;
+  position: relative;
+  padding-bottom: 80px; /* Add extra padding to accommodate buttons */
 }
 
 .camera-wrapper {
@@ -30,7 +32,8 @@ body {
   width: 100%;
 }
 
-#video, #canvas {
+#video,
+#canvas {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
@@ -65,6 +68,12 @@ button {
   width: 100%;
   max-width: 200px;
   margin: 10px auto 0;
+  transform: translateX(-50%);
+  position: absolute; /* Change to absolute positioning within container */
+  bottom: 10px; /* Position at the bottom of the container */
+  left: 50%;
+  transform: translateX(-50%); /* Center horizontally */
+  z-index: 3; /* Ensure it's above other elements */
 }
 
 button:hover {
@@ -81,7 +90,23 @@ button:hover {
 }
 
 @media only screen and (max-width: 600px) {
+  .container {
+    padding-bottom: 120px; /* Increase padding for mobile devices */
+  }
+
   .camera-wrapper {
     max-height: 75%;
   }
+
+  button {
+    width: 90%; /* Adjust width for smaller screens */
+  }
+}
+
+#capture {
+  z-index: 3; /* Ensure it's above other elements */
+}
+
+#reset {
+  z-index: 3; /* Ensure it's above other elements */
 }

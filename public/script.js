@@ -70,9 +70,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // Reset functionality
   resetButton.addEventListener('click', function () {
     context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-    startWebcam(); // Restart the webcam
+    // startWebcam(); // Restart the webcam
     resetButton.style.display = 'none';
     captureButton.style.display = 'block';
+    displayLabel('Click to copy label');
   });
 
   // Display label
