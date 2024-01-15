@@ -1,0 +1,87 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.container {
+  text-align: center;
+  max-width: 640px;
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  border-radius: 8px;
+  overflow: auto;
+}
+
+.camera-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+#video, #canvas {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+#canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width of the container */
+  height: auto; /* Auto height to maintain aspect ratio */
+  z-index: 1;
+  pointer-events: none;
+}
+
+#video {
+  display: block;
+  width: 100%;
+}
+
+button {
+  z-index: 2;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 10px auto 0;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#label {
+  margin-top: 10px;
+  color: #333;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+  .camera-wrapper {
+    max-height: 75%;
+  }
+}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FaceLog</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="camera-wrapper">
+        <video id="video" autoplay></video>
+        <canvas id="canvas"></canvas>
+        <div id="label" style="cursor: pointer">Click to copy label</div>
+        <!-- Label display -->
+      </div>
+      <button id="capture">Capture</button>
+      <button id="reset" style="display: none">Reset</button>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
