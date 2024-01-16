@@ -69,8 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Reset functionality
   resetButton.addEventListener('click', function () {
-    context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-    // startWebcam(); // Restart the webcam
+    context.clearRect(0, 0, canvas.width, canvas.height);
     resetButton.style.display = 'none';
     captureButton.style.display = 'block';
     displayLabel('Click to copy label');
@@ -124,6 +123,10 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error('Failed to copy: ', err);
       alert('Failed to copy label');
     }
+  });
+
+  video.addEventListener('webkitenterfullscreen', function() {
+    document.webkitExitFullscreen();
   });
 
   startWebcam();
