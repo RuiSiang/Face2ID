@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -8,7 +9,7 @@ html, body {
   overflow: hidden;
   font-family: 'Arial', sans-serif;
   background-color: #1e1e1e; /* Darker background */
-  color:#ccc;
+  color: #ccc;
 }
 
 .container {
@@ -46,7 +47,8 @@ html, body {
   border: 1px solid #444; /* Slight border */
 }
 
-#video, #canvas {
+#video,
+#canvas {
   width: 100%;
   max-width: 100%;
   height: auto;
@@ -76,7 +78,7 @@ button {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.1s ease; /* Added transform */
-  margin: 10px 0;
+  margin: 10px 10px;
   width: 90%;
   max-width: 200px;
 }
@@ -102,10 +104,53 @@ button:hover {
 
 @media only screen and (max-width: 600px) {
   button {
-      width: 80%;
+    width: 80%;
   }
 }
 
-#capture, #reset {
+#capture,
+#reset {
   z-index: 3;
+}
+
+h1 {
+  margin: 5px;
+  padding: 0;
+}
+
+.button-wrap {
+  display: flex;
+}
+
+.info-icon-popup {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.info-icon {
+  background-color: #3a3a3a;
+  color: #fff;
+  padding: 5px;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 25px;
+  font-size: 20px;
+}
+
+.popup-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #2a2a2a;
+  color: #ccc;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 20px;
+  width: 320px;
+  z-index: 10;
+  text-align: justify;
 }

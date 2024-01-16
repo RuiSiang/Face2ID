@@ -8,20 +8,40 @@
   </head>
   <body>
     <div class="container">
+      <h1>Face2ID</h1>
+      <a
+        class="github-button"
+        href="https://github.com/RuiSiang/Face2ID"
+        data-color-scheme="no-preference: light; light: light; dark: dark;"
+        data-icon="octicon-star"
+        data-size="large"
+        aria-label="Star RuiSiang/Face2ID on GitHub"
+        >Star on GitHub</a
+      >
+      <div class="info-icon-popup">
+        <div class="info-icon">i</div>
+        <div class="popup-content">
+          <p>About Face2ID...</p>
+          <p> Face2ID revolutionizes patient identification in hospitals, especially for those without official IDs. This system uses facial recognition technology to generate a unique biometric hash for each patient. This contactless and user-friendly approach reduces human error and manipulation risks associated with traditional methods like recording names and birth dates. Face2ID ensures a more secure and efficient identification process, enhancing the reliability of healthcare systems.</p>
+        </div>
+      </div>
       <div class="camera-options" id="cameraOptions">
         <label for="cameraSelect">Select Camera:</label>
         <select id="cameraSelect"></select>
       </div>
-      <button id="toggleCamera" style="display: none">Toggle Camera</button>
       <div class="camera-wrapper">
         <video id="video" autoplay playsinline></video>
         <canvas id="canvas"></canvas>
         <div id="label" style="cursor: pointer">Click to copy label</div>
         <!-- Label display -->
       </div>
-      <button id="capture">Capture</button>
-      <button id="reset" style="display: none">Reset</button>
+      <div class="button-wrap">
+        <button id="toggleCamera" style="display: none">Toggle Camera</button>
+        <button id="capture">Capture</button>
+        <button id="reset" style="display: none">Reset</button>
+      </div>
     </div>
     <script src="script.js"></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
 </html>

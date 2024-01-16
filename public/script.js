@@ -182,6 +182,11 @@ document.addEventListener("DOMContentLoaded", function () {
     startWebcam(null, usingFrontCamera);
   });
 
+  document.querySelector('.info-icon').addEventListener('click', function() {
+    var popup = document.querySelector('.popup-content');
+    popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+  });
+
   populateCameraSelect();
   startWebcam();
 });
