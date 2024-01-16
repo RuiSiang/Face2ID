@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Function to start the webcam
-  function startWebcam(useFrontCamera = true) {
+  function startWebcam(deviceId = null, useFrontCamera = true) {
     if (stream) {
       stream.getTracks().forEach(track => track.stop());
     }
@@ -45,7 +45,10 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     if (isMobileDevice()) {
       // For iOS, specifying the exact camera is often necessary
-      constraints.video.facingMode = useFrontCamera ? 'user' : 'environment';
+      constraints.video = {
+        facingMode: useFrontCamera ? 'user' : 'environment',
+        deviceId: deviceId ? { exact: deviceId } : undefined
+      }
     } else {
       // For non-mobile devices, or as a fallback
       constraints.video = { width: 1280, height: 720 };
@@ -176,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let usingFrontCamera = true;
   document.getElementById('toggleCamera').addEventListener('click', function () {
     usingFrontCamera = !usingFrontCamera;
-    startWebcam(usingFrontCamera);
+    startWebcam(null, usingFrontCamera);
   });
 
   populateCameraSelect();
