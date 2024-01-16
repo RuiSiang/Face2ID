@@ -7,7 +7,8 @@ html, body {
   align-items: center;
   overflow: hidden;
   font-family: 'Arial', sans-serif;
-  background-color: #f4f4f4;
+  background-color: #1e1e1e; /* Darker background */
+  color:#ccc;
 }
 
 .container {
@@ -19,8 +20,8 @@ html, body {
   width: 100%;
   margin: 10px;
   padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+  background: #2a2a2a; /* Dark theme for container */
   border-radius: 8px;
   position: relative;
 }
@@ -40,6 +41,9 @@ html, body {
 #cameraSelect {
   padding: 5px;
   margin-left: 5px;
+  background: #333; /* Dark dropdown */
+  color: #fff; /* White text */
+  border: 1px solid #444; /* Slight border */
 }
 
 #video, #canvas {
@@ -64,30 +68,36 @@ html, body {
 }
 
 button {
-  background-color: #007bff;
-  color: white;
-  border: none;
+  background-color: #3a3a3a; /* Neutral dark gray for buttons */
+  color: #fff; /* White text */
+  border: 1px solid #525252; /* Slight border for definition */
   padding: 10px 20px;
   font-size: 16px;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.1s ease; /* Added transform */
   margin: 10px 0;
   width: 90%;
   max-width: 200px;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #505050; /* Slightly lighter gray on hover */
+  transform: scale(1.05); /* Slight grow effect on hover */
 }
 
 #label {
   margin-top: 10px;
-  color: #333;
-  background-color: #e9ecef;
+  color: #fff; /* White text */
+  background-color: #333; /* Dark label background */
   border-radius: 4px;
   padding: 5px 10px;
   cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+#label:hover {
+  background-color: #444; /* Darken label on hover */
 }
 
 @media only screen and (max-width: 600px) {
