@@ -160,7 +160,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function isMobileDevice() {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    // Check for mobile user agent patterns
+    const isMobileUA = /iPhone|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    // Check for screen size
+    const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    const isSmallScreen = screenWidth < 800; // Adjust this threshold as needed
+    // Combine the checks: Mobile User Agent OR Small Screen
+    return isMobileUA || isSmallScreen;
   }
 
   let usingFrontCamera = true;
