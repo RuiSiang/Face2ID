@@ -10,6 +10,7 @@ body {
   font-family: 'Arial', sans-serif;
   background-color: #1e1e1e; /* Darker background */
   color: #ccc;
+  user-select: none;
 }
 
 .container {
@@ -153,4 +154,12 @@ h1 {
   width: 320px;
   z-index: 10;
   text-align: justify;
+}
+
+.heading-wrap {
+  display: flex;
+  align-items: center;
+}
+.heading-wrap > * {
+  margin: 0px 5px;
 }
