@@ -13,6 +13,7 @@ const Uuid = require('uuid')
 
 const app = new Koa()
 const router = new Router()
+const debugLevel = process.env.DEBUG || 1
 
 async function openDb() {
   return open({
