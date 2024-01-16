@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
   } else {
     // For PC users
     document.getElementById('cameraOptions').style.display = 'block';
-    populateCameraSelect();
   }
 
   function populateCameraSelect() {
@@ -164,23 +163,22 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   function isMobileDevice() {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    // Check for iOS devices (both browsers on iOS report as iPhone, iPod, or iPad)
-    const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
-    // Check for Android and other mobile devices
-    const isOtherMobile = /Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-    // Check for screen size
-    const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    const isSmallScreen = screenWidth < 800; // Adjust this threshold as needed
-    // Combine the checks: iOS OR Other Mobile User Agent OR Small Screen
-    return isIOS || isOtherMobile || isSmallScreen;
+    function hasTouchSupport() {
+      return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    }
+    if (hasTouchSupport()) {
+      return true
+    } else {
+      return false
+    }
   }
 
   let usingFrontCamera = true;
   document.getElementById('toggleCamera').addEventListener('click', function () {
     usingFrontCamera = !usingFrontCamera;
-    startWebcam(usingFrontCamera ? { facingMode: "user" } : { facingMode: { exact: "environment" } });
+    startWebcam(usingFrontCamera);
   });
 
+  populateCameraSelect();
   startWebcam();
 });
