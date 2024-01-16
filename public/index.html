@@ -8,11 +8,12 @@
   </head>
   <body>
     <div class="container">
+      <div class="camera-options" id="cameraOptions">
+        <label for="cameraSelect">Select Camera:</label>
+        <select id="cameraSelect"></select>
+      </div>
+      <button id="toggleCamera" style="display: none">Toggle Camera</button>
       <div class="camera-wrapper">
-        <div class="camera-options">
-          <label for="cameraSelect">Select Camera:</label>
-          <select id="cameraSelect"></select>
-        </div>
         <video id="video" autoplay playsinline></video>
         <canvas id="canvas"></canvas>
         <div id="label" style="cursor: pointer">Click to copy label</div>

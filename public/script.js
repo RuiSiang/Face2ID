@@ -7,6 +7,16 @@ document.addEventListener("DOMContentLoaded", function () {
   const labelDisplay = document.getElementById('label');
   let stream = null;
 
+  if (isMobileDevice()) {
+    // For mobile devices
+    document.getElementById('toggleCamera').style.display = 'block';
+    startWebcam(); // Start with default camera
+  } else {
+    // For PC users
+    document.getElementById('cameraOptions').style.display = 'block';
+    populateCameraSelect();
+  }
+
   function populateCameraSelect() {
     navigator.mediaDevices.enumerateDevices()
       .then(devices => {
@@ -146,6 +156,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   video.addEventListener('webkitenterfullscreen', function () {
     document.webkitExitFullscreen();
+  });
+
+  function isMobileDevice() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+  }
+
+  let usingFrontCamera = true;
+  document.getElementById('toggleCamera').addEventListener('click', function () {
+    usingFrontCamera = !usingFrontCamera;
+    startWebcam(usingFrontCamera ? { facingMode: "user" } : { facingMode: { exact: "environment" } });
   });
 
   populateCameraSelect();

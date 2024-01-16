@@ -1,50 +1,40 @@
 html, body {
   height: 100%;
-  width: 100%;
   margin: 0;
   padding: 0;
-}
-
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f4f4;
-  margin: 0;
-  padding: 0;
+  display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   overflow: hidden;
-  display: flex;
-  flex-direction: column; 
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   max-width: 640px;
   width: 100%;
+  margin: 10px;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background: #fff;
   border-radius: 8px;
   position: relative;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .camera-wrapper {
+  width: 100%;
   position: relative;
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  width: 100%;
+  align-items: center;
 }
 
 .camera-options {
-  margin: 10px;
-  text-align: center;
+  margin: 10px 0;
 }
 
 #cameraSelect {
@@ -52,30 +42,28 @@ body {
   margin-left: 5px;
 }
 
-#video,
-#canvas {
+#video, #canvas {
+  width: 100%;
   max-width: 100%;
   height: auto;
   border-radius: 8px;
+  object-fit: cover;
 }
 
 #canvas {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: auto;
   z-index: 1;
   pointer-events: none;
 }
 
 #video {
+  z-index: 0;
   display: block;
-  width: 100%;
 }
 
 button {
-  z-index: 2;
   background-color: #007bff;
   color: white;
   border: none;
@@ -84,16 +72,9 @@ button {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  display: block;
-  width: 100%;
+  margin: 10px 0;
+  width: 90%;
   max-width: 200px;
-  margin: 10px auto 0;
-  transform: translateX(-50%);
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
 }
 
 button:hover {
@@ -110,23 +91,11 @@ button:hover {
 }
 
 @media only screen and (max-width: 600px) {
-  .container {
-    padding-bottom: 120px;
-  }
-
-  .camera-wrapper {
-    max-height: 75%;
-  }
-
   button {
-    width: 90%;
+      width: 80%;
   }
 }
 
-#capture {
-  z-index: 3;
-}
-
-#reset {
+#capture, #reset {
   z-index: 3;
 }
