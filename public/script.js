@@ -7,14 +7,33 @@ document.addEventListener("DOMContentLoaded", function () {
   const labelDisplay = document.getElementById('label');
   let stream = null;
 
+  function populateCameraSelect() {
+    navigator.mediaDevices.enumerateDevices()
+      .then(devices => {
+        const videoDevices = devices.filter(device => device.kind === 'videoinput');
+        const cameraSelect = document.getElementById('cameraSelect');
+        videoDevices.forEach((device, index) => {
+          let option = document.createElement('option');
+          option.value = device.deviceId;
+          option.text = device.label || `Camera ${index + 1}`;
+          cameraSelect.appendChild(option);
+        });
+      })
+      .catch(err => console.error("Error listing devices:", err));
+  }
+
+  document.getElementById('cameraSelect').addEventListener('change', function () {
+    startWebcam(this.value);
+  });
+
   // Function to start the webcam
-  function startWebcam() {
+  function startWebcam(deviceId = null) {
     if (stream) {
       stream.getTracks().forEach(track => track.stop());
     }
 
     let constraints = {
-      video: { facingMode: "user", aspectRatio: { ideal: 1 } }
+      video: { facingMode: "user", aspectRatio: { ideal: 1 }, deviceId: deviceId ? { exact: deviceId } : undefined }
     };
 
     navigator.mediaDevices.getUserMedia(constraints)
@@ -125,9 +144,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  video.addEventListener('webkitenterfullscreen', function() {
+  video.addEventListener('webkitenterfullscreen', function () {
     document.webkitExitFullscreen();
   });
 
+  populateCameraSelect();
   startWebcam();
 });

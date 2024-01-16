@@ -1,13 +1,21 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: 'Arial', sans-serif;
   background-color: #f4f4f4;
   margin: 0;
   padding: 0;
-  display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   overflow: hidden;
+  display: flex;
+  flex-direction: column; 
 }
 
 .container {
@@ -18,9 +26,11 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background: #fff;
   border-radius: 8px;
-  overflow: auto;
   position: relative;
-  padding-bottom: 80px; /* Add extra padding to accommodate buttons */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .camera-wrapper {
@@ -30,6 +40,16 @@ body {
   align-items: center;
   flex-direction: column;
   width: 100%;
+}
+
+.camera-options {
+  margin: 10px;
+  text-align: center;
+}
+
+#cameraSelect {
+  padding: 5px;
+  margin-left: 5px;
 }
 
 #video,
@@ -43,8 +63,8 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%; /* Full width of the container */
-  height: auto; /* Auto height to maintain aspect ratio */
+  width: 100%;
+  height: auto;
   z-index: 1;
   pointer-events: none;
 }
@@ -69,11 +89,11 @@ button {
   max-width: 200px;
   margin: 10px auto 0;
   transform: translateX(-50%);
-  position: absolute; /* Change to absolute positioning within container */
-  bottom: 10px; /* Position at the bottom of the container */
+  position: absolute;
+  bottom: 10px;
   left: 50%;
-  transform: translateX(-50%); /* Center horizontally */
-  z-index: 3; /* Ensure it's above other elements */
+  transform: translateX(-50%);
+  z-index: 3;
 }
 
 button:hover {
@@ -91,7 +111,7 @@ button:hover {
 
 @media only screen and (max-width: 600px) {
   .container {
-    padding-bottom: 120px; /* Increase padding for mobile devices */
+    padding-bottom: 120px;
   }
 
   .camera-wrapper {
@@ -99,14 +119,14 @@ button:hover {
   }
 
   button {
-    width: 90%; /* Adjust width for smaller screens */
+    width: 90%;
   }
 }
 
 #capture {
-  z-index: 3; /* Ensure it's above other elements */
+  z-index: 3;
 }
 
 #reset {
-  z-index: 3; /* Ensure it's above other elements */
+  z-index: 3;
 }

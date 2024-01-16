@@ -9,7 +9,11 @@
   <body>
     <div class="container">
       <div class="camera-wrapper">
-      <video id="video" autoplay playsinline></video>
+        <div class="camera-options">
+          <label for="cameraSelect">Select Camera:</label>
+          <select id="cameraSelect"></select>
+        </div>
+        <video id="video" autoplay playsinline></video>
         <canvas id="canvas"></canvas>
         <div id="label" style="cursor: pointer">Click to copy label</div>
         <!-- Label display -->
