@@ -128,7 +128,7 @@ router.post('/detect', async (ctx, next) => {
     return new faceapi.LabeledFaceDescriptors(entry.uuid, [base64ToFloat32Array(entry.descriptor)])
   })
 
-  let result = []
+  let result
   if (labeledFaceDescriptors.length > 0) {
     const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6)
     result = faceMatcher.findBestMatch(resizedDetection.descriptor)
@@ -136,7 +136,7 @@ router.post('/detect', async (ctx, next) => {
     result = { _label: 'unknown', _distance: 1 }
   }
 
-  if (result._label == 'unknown') {
+  if (!result || result._label == 'unknown') {
     result._label = await insertData(db, await generateDescriptor(expandT))
     result._distance = 1
   }
