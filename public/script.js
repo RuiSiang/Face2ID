@@ -51,7 +51,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     } else {
       // For non-mobile devices, or as a fallback
-      constraints.video = { width: 1280, height: 720 };
+      constraints.video = {
+        deviceId: deviceId ? { exact: deviceId } : undefined, width: 1280, height: 720
+      };
     }
     navigator.mediaDevices.getUserMedia(constraints)
       .then(localStream => {
@@ -182,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
     startWebcam(null, usingFrontCamera);
   });
 
-  document.querySelector('.info-icon').addEventListener('click', function() {
+  document.querySelector('.info-icon').addEventListener('click', function () {
     var popup = document.querySelector('.popup-content');
     popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
   });
