@@ -37,15 +37,20 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Function to start the webcam
-  function startWebcam(deviceId = null) {
+  function startWebcam(useFrontCamera = true) {
     if (stream) {
       stream.getTracks().forEach(track => track.stop());
     }
-
     let constraints = {
-      video: { facingMode: "user", aspectRatio: { ideal: 1 }, deviceId: deviceId ? { exact: deviceId } : undefined }
+      video: {}
     };
-
+    if (isMobileDevice()) {
+      // For iOS, specifying the exact camera is often necessary
+      constraints.video.facingMode = useFrontCamera ? 'user' : 'environment';
+    } else {
+      // For non-mobile devices, or as a fallback
+      constraints.video = { width: 1280, height: 720 };
+    }
     navigator.mediaDevices.getUserMedia(constraints)
       .then(localStream => {
         stream = localStream;
@@ -53,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .catch(err => {
         console.error("Error accessing webcam:", err);
-        alert("Could not access the camera");
+        alert("Could not access the camera. Error: " + err.message);
       });
   }
 
@@ -160,13 +165,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function isMobileDevice() {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    // Check for mobile user agent patterns
-    const isMobileUA = /iPhone|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    // Check for iOS devices (both browsers on iOS report as iPhone, iPod, or iPad)
+    const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+    // Check for Android and other mobile devices
+    const isOtherMobile = /Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
     // Check for screen size
     const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     const isSmallScreen = screenWidth < 800; // Adjust this threshold as needed
-    // Combine the checks: Mobile User Agent OR Small Screen
-    return isMobileUA || isSmallScreen;
+    // Combine the checks: iOS OR Other Mobile User Agent OR Small Screen
+    return isIOS || isOtherMobile || isSmallScreen;
   }
 
   let usingFrontCamera = true;
@@ -175,6 +182,5 @@ document.addEventListener("DOMContentLoaded", function () {
     startWebcam(usingFrontCamera ? { facingMode: "user" } : { facingMode: { exact: "environment" } });
   });
 
-  populateCameraSelect();
   startWebcam();
 });
