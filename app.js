@@ -136,7 +136,7 @@ router.post('/detect', async (ctx, next) => {
     result = { _label: 'unknown', _distance: 1 }
   }
 
-  if (!result || result._label == 'unknown') {
+  if (!result || !result._label || result._label == 'unknown') {
     result._label = await insertData(db, await generateDescriptor(expandT))
     result._distance = 1
   }
