@@ -12,7 +12,14 @@ Saint Lucian hospitals frequently encounter patients lacking official identifica
 
 ## Run
 
+### Nodejs
 ```
 npm install
 npm start
+```
+
+### Docker
+```
+# Both AMD64 and ARM are supported
+docker run --name face2id ruisiang/face2id
 ```
