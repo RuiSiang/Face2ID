@@ -6,7 +6,7 @@ Saint Lucian hospitals frequently encounter patients lacking official identifica
 
 ## Screenshots
 
-| Desktop                 | Mobile                 |
+| Desktop (uuid mode)     | Mobile (semantic mode) |
 | ----------------------- | ---------------------- |
 | ![](images/desktop.png) | ![](images/mobile.jpg) |
 
