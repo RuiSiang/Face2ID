@@ -51,7 +51,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     } else {
       // For non-mobile devices, or as a fallback
-      constraints.video = { width: 1280, height: 720 };
+      constraints.video = {
+        deviceId: deviceId ? { exact: deviceId } : undefined, width: 1280, height: 720
+      };
     }
     navigator.mediaDevices.getUserMedia(constraints)
       .then(localStream => {
