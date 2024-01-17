@@ -66,21 +66,21 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  function adjustCanvasDisplaySize() {
-    // Adjust the canvas display size to maintain aspect ratio
-    const aspectRatio = video.videoWidth / video.videoHeight;
-    canvas.style.width = '100%';
-    canvas.style.height = `${canvas.offsetWidth / aspectRatio}px`;
-  }
+  // function adjustCanvasDisplaySize() {
+  //   // Adjust the canvas display size to maintain aspect ratio
+  //   const aspectRatio = video.videoWidth / video.videoHeight;
+  //   canvas.style.width = '100%';
+  //   canvas.style.height = `${canvas.offsetWidth / aspectRatio}px`;
+  // }
 
-  video.onplay = () => {
-    // Set canvas size when the video starts playing
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    adjustCanvasDisplaySize();
-  };
+  // video.onplay = () => {
+  //   // Set canvas size when the video starts playing
+  //   canvas.width = video.videoWidth;
+  //   canvas.height = video.videoHeight;
+  //   adjustCanvasDisplaySize();
+  // };
 
-  window.addEventListener('resize', adjustCanvasDisplaySize);
+  // window.addEventListener('resize', adjustCanvasDisplaySize);
 
   captureButton.addEventListener('click', function () {
     canvas.width = video.videoWidth;
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
     context.clearRect(0, 0, canvas.width, canvas.height);
     resetButton.style.display = 'none';
     captureButton.style.display = 'block';
-    displayLabel('Click to copy label');
+    displayLabel();
   });
 
   // Display label
@@ -123,6 +123,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const labelDisplay = document.getElementById('label');
     if (showSemanticLabel && semanticLabel || !showSemanticLabel && uuidLabel) {
       labelDisplay.textContent = showSemanticLabel ? semanticLabel : uuidLabel;
+    } else if (!semanticLabel && !uuidLabel) {
+      labelDisplay.textContent = `Click to copy label ${showSemanticLabel ? '(semantic mode)' : '(uuid mode)'}`
     }
   }
 

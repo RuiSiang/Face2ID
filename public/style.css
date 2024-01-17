@@ -6,6 +6,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
   font-family: 'Arial', sans-serif;
   background-color: #1e1e1e; /* Darker background */
   color: #ccc;
@@ -28,11 +29,10 @@ body {
 }
 
 .camera-wrapper {
-  width: 100%;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100%;
+  padding-top: 56.25%;
+  margin: 10px 0;
 }
 
 .camera-options {
@@ -47,11 +47,12 @@ body {
   border: 1px solid #444; /* Slight border */
 }
 
-#video,
-#canvas {
+#video, #canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 100%;
-  height: auto;
+  height: 100%;
   border-radius: 8px;
   object-fit: cover;
 }
