@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Face2ID - Transform Biometrics to UUID Fast</title>
-    <meta name="description" content="Face2ID employs contactless biometric scanning to create unique and secure patient identifiers, enhancing accuracy and security in patient data management. Say goodbye to errors and manipulation associated with traditional identification methods. Welcome to a new era of efficient and reliable healthcare.">
+    <meta
+      name="description"
+      content="Face2ID employs contactless biometric scanning to create unique and secure patient identifiers, enhancing accuracy and security in patient data management. Say goodbye to errors and manipulation associated with traditional identification methods. Welcome to a new era of efficient and reliable healthcare."
+    />
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" type="image/png" href="logo.png" />
   </head>
@@ -49,10 +52,12 @@
         <video id="video" autoplay playsinline></video>
         <canvas id="canvas"></canvas>
         <div id="label" style="cursor: pointer">Click to copy label</div>
-        <!-- Label display -->
       </div>
       <div class="button-wrap">
-        <button id="toggleCamera" style="display: none">Toggle Camera</button>
+        <button id="toggleLabelButton">Semantic / UUID</button>
+        <button id="toggleCamera" style="display: none">
+          Camera Direction
+        </button>
         <button id="capture">Capture</button>
         <button id="reset" style="display: none">Reset</button>
       </div>

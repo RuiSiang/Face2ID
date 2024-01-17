@@ -10,10 +10,26 @@ const moment = require('moment')
 const sqlite3 = require('sqlite3')
 const { open } = require('sqlite')
 const Uuid = require('uuid')
+const fs = require('fs')
 
 const app = new Koa()
 const router = new Router()
 const debugLevel = process.env.DEBUG || 1
+
+const bip0039 = JSON.parse(fs.readFileSync('bip-0039.json'))
+const randomSemantic = () => {
+  let result = [];
+  let usedIndices = new Set();
+  while (result.length < 4) {
+    let randomIndex = Math.floor(Math.random() * bip0039.length);
+
+    if (!usedIndices.has(randomIndex)) {
+      result.push(bip0039[randomIndex]);
+      usedIndices.add(randomIndex);
+    }
+  }
+  return result.join(' ')
+}
 
 async function openDb() {
   return open({
@@ -34,7 +50,9 @@ const init = async () => {
 CREATE TABLE IF NOT EXISTS biometrics (
     uuid VARCHAR(36) PRIMARY KEY,
     timestamp TEXT,
-    descriptor TEXT
+    semantic VARCHAR(64),
+    descriptor TEXT,
+    UNIQUE (semantic)
 )`
   await db.run(createSchema)
   await db.close()
@@ -46,13 +64,16 @@ init()
 const insertData = async (db, descriptor) => {
   const uuid = Uuid.v4()
   const timestamp = moment().toISOString()
+  const semantic = randomSemantic()
   try {
-    const sql = `INSERT INTO biometrics (uuid, timestamp, descriptor) VALUES (?, ?, ?)`
-    await db.run(sql, [uuid, timestamp, descriptor])
+    const sql = `INSERT INTO biometrics (uuid, timestamp, descriptor, semantic) VALUES (?, ?, ?, ?)`
+    await db.run(sql, [uuid, timestamp, descriptor, semantic])
     if (debugLevel > 0) {
       console.log(`Entry ${uuid} added to the table: ${timestamp}`)
     }
-    return uuid
+    return {
+      uuid, semantic
+    }
   } catch (err) {
     console.error(err.message)
   }
@@ -61,7 +82,7 @@ const insertData = async (db, descriptor) => {
 const queryDataAndCount = async (db) => {
   try {
     // Query to select the rows
-    const sqlQuery = `SELECT uuid, descriptor FROM biometrics ORDER BY timestamp DESC`;
+    const sqlQuery = `SELECT uuid, descriptor, semantic FROM biometrics ORDER BY timestamp DESC`;
     const entries = (await db.all(sqlQuery)) || [];
 
     // Query to count the rows
@@ -126,25 +147,33 @@ router.post('/detect', async (ctx, next) => {
   const { entries, count } = await queryDataAndCount(db)
 
   const labeledFaceDescriptors = entries.map(entry => {
-    return new faceapi.LabeledFaceDescriptors(entry.uuid, [base64ToFloat32Array(entry.descriptor)])
+    return new faceapi.LabeledFaceDescriptors(`${entry.uuid}|${entry.semantic}`, [base64ToFloat32Array(entry.descriptor)])
   })
 
   let result
   if (labeledFaceDescriptors.length > 0) {
     const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6)
     result = faceMatcher.findBestMatch(resizedDetection.descriptor)
+    const [label, semantic] = result._label.split('|')
+    result = { label, semantic, distance: result._distance }
   } else {
-    result = { _label: 'unknown', _distance: 1 }
+    result = { label: 'unknown', semantic: 'unknown', distance: 1 }
   }
 
-  if (!result || !result._label || result._label == 'unknown') {
-    result._label = await insertData(db, await generateDescriptor(expandT))
-    result._distance = 1
+  if (!result || !result.label || result.label == 'unknown') {
+    const { uuid, semantic } = await insertData(db, await generateDescriptor(expandT))
+    result = { label: uuid, semantic, distance: 0 }
   }
 
   await db.close()
 
   ctx.body = { detection, result }
+})
+
+router.get('/wordlist', async (ctx, next) => {
+  ctx.status = 200
+  ctx.type = 'application/json'
+  ctx.body = bip0039
 })
 
 app

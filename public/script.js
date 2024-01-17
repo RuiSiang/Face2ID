@@ -112,12 +112,21 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Display label
-  function displayLabel(label) {
-    labelDisplay.textContent = label;
-    labelDisplay.style.display = 'block';
+  let showSemanticLabel = false;
+  function toggleLabelDisplay() {
+    showSemanticLabel = !showSemanticLabel;
+    displayLabel();
+  }
+  function displayLabel() {
+    const labelDisplay = document.getElementById('label');
+    if (showSemanticLabel && semanticLabel || !showSemanticLabel && uuidLabel) {
+      labelDisplay.textContent = showSemanticLabel ? semanticLabel : uuidLabel;
+    }
   }
 
   // Function to display results
+  let uuidLabel = '';
+  let semanticLabel = '';
   function displayResults(data, context) {
     const det = data.detection;
     const box = det.detection._box;
@@ -138,16 +147,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Display face label and angles
-    const label = data.result._label;
+    const label = data.result.label;
     const angle = det.angle;
     context.fillStyle = 'yellow';
     context.font = '12px Arial';
     context.fillText(`Label: ${label}`, box._x, box._y - 20);
-    context.fillText(`Distance: ${Math.round(data.result._distance * 100) / 100}, Roll: ${angle.roll}°, Pitch: ${angle.pitch}°, Yaw: ${angle.yaw}°`, box._x, box._y - 5);
+    context.fillText(`Distance: ${Math.round(data.result.distance * 100) / 100}, Roll: ${angle.roll}°, Pitch: ${angle.pitch}°, Yaw: ${angle.yaw}°`, box._x, box._y - 5);
 
-    if (data.result && data.result._label) {
-      displayLabel(data.result._label);
+    if (data.result) {
+      uuidLabel = data.result.label || '';
+      semanticLabel = data.result.semantic || '';
     }
+    displayLabel(uuidLabel);
   }
 
   // Event listener to copy label
@@ -182,10 +193,12 @@ document.addEventListener("DOMContentLoaded", function () {
     startWebcam(null, usingFrontCamera);
   });
 
-  document.querySelector('.info-icon').addEventListener('click', function() {
+  document.querySelector('.info-icon').addEventListener('click', function () {
     var popup = document.querySelector('.popup-content');
     popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
   });
+
+  document.getElementById('toggleLabelButton').addEventListener('click', toggleLabelDisplay);
 
   populateCameraSelect();
   startWebcam();

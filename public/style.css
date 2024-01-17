@@ -96,7 +96,7 @@ button:hover {
   border-radius: 4px;
   padding: 5px 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease; /* Smooth background transition */
+  transition: background-color 0.3s ease;
 }
 
 #label:hover {
