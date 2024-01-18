@@ -168,7 +168,7 @@ router.post('/detect', async (ctx, next) => {
 
 
   const { roll, pitch, yaw } = detection.angle
-  if (expression[0] != 'neutral' || expression[1] < 0.80 || Math.abs(roll) > rollThreshold || Math.abs(pitch) > pitchThreshold || Math.abs(yaw) > yawThreshold) {
+  if (expression[0] != 'neutral' || expression[1] < 0.70 || Math.abs(roll) > rollThreshold || Math.abs(pitch) > pitchThreshold || Math.abs(yaw) > yawThreshold) {
     result = { label: 'unknown', semantic: 'unknown', distance: 1 }
   } else {
     if (!result || !result.label || result.label == 'unknown') {
