@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (Math.abs(angle.roll) > rollThreshold || Math.abs(angle.pitch) > pitchThreshold || Math.abs(angle.yaw) > yawThreshold) {
       alert(`Captured face should be centered and positioned correctly,${Math.abs(angle.roll) > rollThreshold ? ` roll <= ${rollThreshold}°` : ''} ${Math.abs(angle.pitch) > pitchThreshold ? ` pitch <= ${pitchThreshold}°` : ''} ${Math.abs(angle.yaw) > yawThreshold ? ` yaw <= ${yawThreshold}°` : ''}`)
-    } else if (data.expression[0] != 'neutral' || data.expression[1] < 0.99) {
+    } else if (data.expression[0] != 'neutral' || data.expression[1] < 0.90) {
       alert('Captured face should maintain a neutral expression')
     }
   }
