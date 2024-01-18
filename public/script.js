@@ -159,9 +159,9 @@ document.addEventListener("DOMContentLoaded", function () {
     context.fillText(`Label: ${label}`, box._x, box._y - 20);
     context.fillText(`Distance: ${Math.round(data.result.distance * 100) / 100}, Roll: ${angle.roll}°, Pitch: ${angle.pitch}°, Yaw: ${angle.yaw}°`, box._x, box._y - 5);
 
-    const rollThreshold = 45;
+    const rollThreshold = 15;
     const pitchThreshold = 10;
-    const yawThreshold = 15;
+    const yawThreshold = 45;
 
     if (data.result) {
       uuidLabel = data.result.label || '';

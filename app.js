@@ -15,9 +15,9 @@ const fs = require('fs')
 const app = new Koa()
 const router = new Router()
 const debugLevel = process.env.DEBUG || 1
-const rollThreshold = process.env.ROLL_THRESHOLD || 45
+const rollThreshold = process.env.ROLL_THRESHOLD || 15
 const pitchThreshold = process.env.PITCH_THRESHOLD || 10
-const yawThreshold = process.env.YAW_THRESHOLD || 15
+const yawThreshold = process.env.YAW_THRESHOLD || 45
 
 const bip0039 = JSON.parse(fs.readFileSync('bip-0039.json'))
 const randomSemantic = () => {
