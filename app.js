@@ -152,7 +152,7 @@ router.post('/detect', async (ctx, next) => {
 
   let result
   if (labeledFaceDescriptors.length > 0) {
-    const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6)
+    const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.4)
     result = faceMatcher.findBestMatch(resizedDetection.descriptor)
     const [label, semantic] = result._label.split('|')
     result = { label, semantic, distance: result._distance }
