@@ -47,6 +47,7 @@ const init = async () => {
   await faceapi.nets.faceRecognitionNet.loadFromDisk(path.join(process.cwd(), 'models'))
   await faceapi.nets.faceLandmark68Net.loadFromDisk(path.join(process.cwd(), 'models'))
   await faceapi.nets.ssdMobilenetv1.loadFromDisk(path.join(process.cwd(), 'models'))
+  await faceapi.nets.faceExpressionNet.loadFromDisk(path.join(process.cwd(), 'models'))
   console.log('Models Loaded')
   const db = await openDb()
   const createSchema = `
@@ -143,8 +144,10 @@ router.post('/detect', async (ctx, next) => {
   const decodeT = faceapi.tf.node.decodeImage(buffer, 3)
   const expandT = faceapi.tf.expandDims(decodeT, 0)
 
-  const detection = await faceapi.detectSingleFace(expandT).withFaceLandmarks().withFaceDescriptor()
+  const detection = await faceapi.detectSingleFace(expandT).withFaceLandmarks().withFaceDescriptor().withFaceExpressions()
   const resizedDetection = faceapi.resizeResults(detection, displaySize)
+
+  const expression = ((Object.entries(detection.expressions).reduce((acc, val) => ((val[1] > acc[1]) ? val : acc), ['', 0])).slice(0, 2))
 
   const db = await openDb()
   const { entries, count } = await queryDataAndCount(db)
@@ -163,9 +166,9 @@ router.post('/detect', async (ctx, next) => {
     result = { label: 'unknown', semantic: 'unknown', distance: 1 }
   }
 
-  
+
   const { roll, pitch, yaw } = detection.angle
-  if (Math.abs(roll) > rollThreshold || Math.abs(pitch) > pitchThreshold || Math.abs(yaw) > yawThreshold) {
+  if (expression[0] != 'neutral' || expression[1] < 0.99 || Math.abs(roll) > rollThreshold || Math.abs(pitch) > pitchThreshold || Math.abs(yaw) > yawThreshold) {
     result = { label: 'unknown', semantic: 'unknown', distance: 1 }
   } else {
     if (!result || !result.label || result.label == 'unknown') {
@@ -179,7 +182,7 @@ router.post('/detect', async (ctx, next) => {
   }
   await db.close()
 
-  ctx.body = { detection, result }
+  ctx.body = { detection, result, expression }
 })
 
 router.get('/wordlist', async (ctx, next) => {

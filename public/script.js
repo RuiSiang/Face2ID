@@ -156,8 +156,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     context.fillStyle = 'yellow';
     context.font = '12px Arial';
-    context.fillText(`Label: ${label}`, box._x, box._y - 20);
-    context.fillText(`Distance: ${Math.round(data.result.distance * 100) / 100}, Roll: ${angle.roll}°, Pitch: ${angle.pitch}°, Yaw: ${angle.yaw}°`, box._x, box._y - 5);
+    context.fillText(`Label: ${label}`, box._x, box._y - 35);
+    context.fillText(`Distance: ${Math.round(data.result.distance * 100) / 100}, Roll: ${angle.roll}°, Pitch: ${angle.pitch}°, Yaw: ${angle.yaw}°`, box._x, box._y - 20);
+    context.fillText(`Expression: ${data.expression[0]} ${Math.round(100 * data.expression[1])}%`, box._x, box._y - 5);
 
     const rollThreshold = 15;
     const pitchThreshold = 10;
@@ -170,7 +171,9 @@ document.addEventListener("DOMContentLoaded", function () {
     displayLabel(uuidLabel);
 
     if (Math.abs(angle.roll) > rollThreshold || Math.abs(angle.pitch) > pitchThreshold || Math.abs(angle.yaw) > yawThreshold) {
-      alert(`Face should be centered and positioned correctly,${Math.abs(angle.roll) > rollThreshold ? ` roll <= ${rollThreshold}°` : ''} ${Math.abs(angle.pitch) > pitchThreshold ? ` pitch <= ${pitchThreshold}°` : ''} ${Math.abs(angle.yaw) > yawThreshold ? ` yaw <= ${yawThreshold}°` : ''}`)
+      alert(`Captured face should be centered and positioned correctly,${Math.abs(angle.roll) > rollThreshold ? ` roll <= ${rollThreshold}°` : ''} ${Math.abs(angle.pitch) > pitchThreshold ? ` pitch <= ${pitchThreshold}°` : ''} ${Math.abs(angle.yaw) > yawThreshold ? ` yaw <= ${yawThreshold}°` : ''}`)
+    } else if (data.expression[0] != 'neutral' || data.expression[1] < 0.99) {
+      alert('Captured face should maintain a neutral expression')
     }
   }
 
