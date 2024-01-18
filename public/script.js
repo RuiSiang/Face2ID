@@ -169,14 +169,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     displayLabel(uuidLabel);
 
-    if (Math.abs(angle.roll) > rollThreshold) {
-      alert(`Face roll should not exceed ${rollThreshold}°`)
-    }
-    if (Math.abs(angle.pitch) > pitchThreshold) {
-      alert(`Face pitch should not exceed ${pitchThreshold}°`)
-    }
-    if (Math.abs(angle.yaw) > yawThreshold) {
-      alert(`Face yaw should not exceed ${yawThreshold}°`)
+    if (Math.abs(angle.roll) > rollThreshold || Math.abs(angle.pitch) > pitchThreshold || Math.abs(angle.yaw) > yawThreshold) {
+      alert(`Face should be positioned correctly, roll <= ${rollThreshold}°, pitch <= ${pitchThreshold}°, yaw <= ${yawThreshold}°`)
     }
   }
 
