@@ -153,16 +153,31 @@ document.addEventListener("DOMContentLoaded", function () {
     // Display face label and angles
     const label = data.result.label;
     const angle = det.angle;
+
     context.fillStyle = 'yellow';
     context.font = '12px Arial';
     context.fillText(`Label: ${label}`, box._x, box._y - 20);
     context.fillText(`Distance: ${Math.round(data.result.distance * 100) / 100}, Roll: ${angle.roll}°, Pitch: ${angle.pitch}°, Yaw: ${angle.yaw}°`, box._x, box._y - 5);
+
+    const rollThreshold = 45;
+    const pitchThreshold = 10;
+    const yawThreshold = 15;
 
     if (data.result) {
       uuidLabel = data.result.label || '';
       semanticLabel = data.result.semantic || '';
     }
     displayLabel(uuidLabel);
+
+    if (Math.abs(angle.roll) > rollThreshold) {
+      alert(`Face roll should not exceed ${rollThreshold}°`)
+    }
+    if (Math.abs(angle.pitch) > pitchThreshold) {
+      alert(`Face pitch should not exceed ${pitchThreshold}°`)
+    }
+    if (Math.abs(angle.yaw) > yawThreshold) {
+      alert(`Face yaw should not exceed ${yawThreshold}°`)
+    }
   }
 
   // Event listener to copy label

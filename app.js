@@ -15,6 +15,9 @@ const fs = require('fs')
 const app = new Koa()
 const router = new Router()
 const debugLevel = process.env.DEBUG || 1
+const rollThreshold = process.env.ROLL_THRESHOLD || 45
+const pitchThreshold = process.env.PITCH_THRESHOLD || 10
+const yawThreshold = process.env.YAW_THRESHOLD || 15
 
 const bip0039 = JSON.parse(fs.readFileSync('bip-0039.json'))
 const randomSemantic = () => {
@@ -160,11 +163,20 @@ router.post('/detect', async (ctx, next) => {
     result = { label: 'unknown', semantic: 'unknown', distance: 1 }
   }
 
-  if (!result || !result.label || result.label == 'unknown') {
-    const { uuid, semantic } = await insertData(db, await generateDescriptor(expandT))
-    result = { label: uuid, semantic, distance: 0 }
+  
+  const { roll, pitch, yaw } = detection.angle
+  if (Math.abs(roll) > rollThreshold || Math.abs(pitch) > pitchThreshold || Math.abs(yaw) > yawThreshold) {
+    result = { label: 'unknown', semantic: 'unknown', distance: 1 }
+  } else {
+    if (!result || !result.label || result.label == 'unknown') {
+      try {
+        const { uuid, semantic } = await insertData(db, await generateDescriptor(expandT))
+        result = { label: uuid, semantic, distance: 0 }
+      } catch (err) {
+        result = { label: 'unknown', semantic: 'unknown', distance: 1 }
+      }
+    }
   }
-
   await db.close()
 
   ctx.body = { detection, result }
